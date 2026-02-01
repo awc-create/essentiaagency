@@ -1,0 +1,108 @@
+/* src/components/admin/home/EnquireSettings.module.scss */
+
+.section {
+  padding: 18px;
+}
+
+.form {
+  display: grid;
+  gap: 14px;
+  max-width: 980px;
+}
+
+.full {
+  grid-column: 1 / -1;
+}
+
+.fieldset {
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.fieldRow {
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 14px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.fieldHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+
+  button {
+    padding: 6px 10px;
+  }
+}
+
+.fieldIndex {
+  font-weight: 800;
+  margin-right: auto;
+}
+
+.fieldGrid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 10px;
+
+  @media (max-width: 860px) {
+    grid-template-columns: 1fr;
+  }
+
+  small {
+    display: block;
+    opacity: 0.75;
+    margin-top: 4px;
+  }
+
+  code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+      monospace;
+    font-size: 0.85em;
+  }
+}
+
+.checkboxRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 22px;
+
+  input {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.save {
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-weight: 800;
+}
+
+.addBtn {
+  padding: 10px 12px;
+  border-radius: 12px;
+  margin-top: 6px;
+}
+
+.removeBtn {
+  margin-left: auto;
+  padding: 6px 10px;
+  border-radius: 12px;
+}
+
+.errors {
+  color: #fca5a5;
+  font-size: 0.85rem;
+  margin-top: 0.55rem;
+}

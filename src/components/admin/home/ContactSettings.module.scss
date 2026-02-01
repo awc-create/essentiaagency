@@ -1,0 +1,235 @@
+/* src/components/admin/home/ContactSettings.module.scss */
+
+.section {
+  padding: 18px;
+
+  /* ✅ Scope form element styles inside a local class (CSS Modules purity) */
+  input,
+  textarea,
+  select {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    background: rgba(2, 6, 23, 0.35);
+    color: #e5e7eb;
+    outline: none;
+  }
+
+  input:focus,
+  textarea:focus,
+  select:focus {
+    border-color: rgba(148, 163, 184, 0.55);
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 44px;
+  }
+}
+
+.form {
+  display: grid;
+  gap: 14px;
+  max-width: 980px;
+}
+
+.full {
+  grid-column: 1 / -1;
+}
+
+.fieldset {
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.fieldRow {
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 14px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.fieldHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+
+  button {
+    padding: 6px 10px;
+  }
+}
+
+.fieldIndex {
+  font-weight: 800;
+  margin-right: auto;
+}
+
+.fieldGrid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 10px;
+
+  @media (max-width: 860px) {
+    grid-template-columns: 1fr;
+  }
+
+  small {
+    display: block;
+    opacity: 0.75;
+    margin-top: 4px;
+  }
+
+  code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+      'Courier New', monospace;
+    font-size: 0.85em;
+  }
+}
+
+.checkboxRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 22px;
+
+  input {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.save {
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-weight: 800;
+}
+
+.addBtn {
+  padding: 10px 12px;
+  border-radius: 12px;
+  margin-top: 6px;
+}
+
+.removeBtn {
+  margin-left: auto;
+  padding: 6px 10px;
+  border-radius: 12px;
+}
+
+.errors {
+  color: #fca5a5;
+  font-size: 0.85rem;
+  margin-top: 0.55rem;
+}
+
+/* ===== Social links UI ===== */
+
+.socialList {
+  display: grid;
+  gap: 10px;
+}
+
+.socialRow {
+  display: grid;
+  grid-template-columns: 220px 1fr auto;
+  gap: 10px;
+  align-items: end;
+
+  @media (max-width: 860px) {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+}
+
+.socialUrl {
+  grid-column: span 1;
+}
+
+.socialActions {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.muted {
+  opacity: 0.75;
+  font-size: 0.9rem;
+  margin-top: 8px;
+}
+
+/* ===== Clear button UI (for inputs with "clear") ===== */
+
+.inputWrap {
+  display: grid;
+  gap: 6px;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+
+  @media (max-width: 860px) {
+    flex-wrap: wrap;
+  }
+}
+
+.clearBtn {
+  padding: 8px 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  background: rgba(2, 6, 23, 0.35);
+  color: rgba(226, 232, 240, 0.92);
+  white-space: nowrap;
+  cursor: pointer;
+
+  &:hover {
+    border-color: rgba(148, 163, 184, 0.5);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.clearAllBtn {
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  background: rgba(2, 6, 23, 0.35);
+  color: rgba(226, 232, 240, 0.92);
+  cursor: pointer;
+
+  &:hover {
+    border-color: rgba(148, 163, 184, 0.5);
+  }
+}
+
+/* Make buttons consistent */
+.removeBtn,
+.save,
+.addBtn {
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  background: rgba(2, 6, 23, 0.35);
+  color: rgba(226, 232, 240, 0.92);
+  cursor: pointer;
+
+  &:hover {
+    border-color: rgba(148, 163, 184, 0.5);
+  }
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+}

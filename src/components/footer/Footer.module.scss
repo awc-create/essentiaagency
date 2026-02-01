@@ -1,0 +1,280 @@
+.footer {
+  position: relative;
+  z-index: 1100;
+  width: 100%;
+  color: var(--text);
+  padding: 56px 5% calc(56px + env(safe-area-inset-bottom));
+  text-align: center;
+
+  /* Solid base + subtle vertical shading for depth */
+  background:
+    linear-gradient(180deg, var(--footer-bg) 0%, var(--footer-bg-2) 100%);
+
+  /* ── Top fade: blends footer into the black page background */
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; top: -64px; height: 64px;
+    pointer-events: none;
+    /* fade from page (transparent) into footer color */
+    background: linear-gradient(
+      to bottom,
+      rgba(0,0,0,0) 0%,
+      color-mix(in srgb, var(--footer-bg) 85%, #000 15%) 60%,
+      var(--footer-bg) 100%
+    );
+  }
+
+  /* A soft “sky glow” so it belongs to the same world */
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(120% 80% at 50% 0%,
+        rgba(255,255,255,0.06),
+        rgba(255,255,255,0.02) 45%,
+        transparent 70%);
+    opacity: .6;
+    mix-blend-mode: overlay;
+  }
+}
+
+.container {
+  max-width: 1160px;
+  margin-inline: auto;
+  display: grid;
+  place-items: center;
+  gap: 22px;
+  position: relative;
+  z-index: 1; /* above the decorative glows */
+}
+
+/* ===============================
+   Desktop/Tablet footer links (ghost tiles)
+================================ */
+.footerLinks {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px;
+}
+
+.footerLink {
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.98rem;
+  letter-spacing: .01em;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, var(--tile), transparent);
+  transition: color .2s ease, background .2s ease, transform .12s ease, border-color .2s ease;
+
+  &:hover {
+    color: var(--accent);
+    background: linear-gradient(180deg, var(--tile-hover), var(--tile));
+    transform: translateY(-1px);
+    border-color: rgba(255,255,255,.14);
+  }
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--focus);
+  }
+}
+
+/* ===============================
+   Mobile: MAIN SITE MENU (NAV_LINKS)
+================================ */
+.mobileMenu { display: none; width: 100%; }
+
+.menuList {
+  list-style: none;
+  padding: 12px 0 0;
+  margin: 0;
+  width: 100%;
+  max-width: 720px;
+  display: grid;
+  gap: 10px;
+  border-top: 1px solid var(--line);
+}
+
+.menuItem {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: var(--tile);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 14px 16px;
+  color: var(--text);
+  font-weight: 700;
+  letter-spacing: .01em;
+  text-decoration: none;
+  line-height: 1.25;
+  transition: background .16s ease, border-color .16s ease, transform .12s ease, color .16s ease;
+
+  &:hover {
+    background: var(--tile-hover);
+    border-color: rgba(255,255,255,0.14);
+    transform: translateY(-1px);
+  }
+  &:active { transform: translateY(0); }
+  &:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--focus); }
+}
+
+.menuItemActive {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-color: color-mix(in oklab, var(--accent) 60%, #000 40%);
+  box-shadow: 0 8px 18px rgba(230, 211, 173, 0.28);
+}
+
+/* ===============================
+   Socials
+================================ */
+.socialRow {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.socialLabel {
+  color: var(--muted);
+  font-size: .9rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.socialIcons {
+  display: flex; gap: 16px;
+  a {
+    color: var(--text);
+    font-size: 1.22rem;
+    line-height: 1;
+    transition: transform .18s ease, color .18s ease, text-shadow .18s ease;
+    &:hover {
+      transform: translateY(-1px);
+      color: var(--accent);
+      text-shadow: 0 4px 16px rgba(230, 211, 173, 0.25);
+    }
+    &:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--focus); border-radius: 8px; }
+  }
+}
+
+/* ===============================
+   Copy / credit
+================================ */
+.copy   { font-size: .9rem; color: var(--muted); }
+.credit { font-size: .9rem; color: #d8dbe0;
+  a { color: var(--accent); font-weight: 700; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+}
+
+/* ===============================
+   Mobile breakpoint adjustments
+================================ */
+@media (max-width: 768px) {
+  .footer { padding: 44px 5% calc(44px + env(safe-area-inset-bottom)); }
+
+  .footerLinks {
+    width: 100%;
+    max-width: 720px;
+    gap: 10px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .footerLink {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: var(--tile);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 12px 16px;
+    font-weight: 600;
+    transition: background .16s ease, border-color .16s ease, transform .12s ease, color .16s ease;
+    &:hover { background: var(--tile-hover); border-color: rgba(255,255,255,0.14); transform: translateY(-1px); }
+    &:active { transform: translateY(0); }
+  }
+
+  .mobileMenu { display: block; }
+}
+
+/* Screen reader only */
+.srOnly {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* ===== FORCE AWC LINK COLOUR ===== */
+
+.credit {
+  font-size: 0.85rem;
+  margin-top: 6px;
+  text-align: center;
+  color: #e5e7eb;
+}
+
+.credit a {
+  color: #e7d7a7 !important; /* 🔒 HARD COLOR */
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.credit a:hover {
+  text-decoration: underline;
+}
+
+
+/* FORCE colour + affordance */
+.creditLink {
+  color: var(--accent) !important; /* 👈 force it */
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  position: relative;
+  cursor: pointer;
+  transition: color 0.2s ease, opacity 0.2s ease;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--accent),
+      transparent
+    );
+    opacity: 0;
+    transform: scaleX(0.6);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  &:hover::after {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px color-mix(in oklab, var(--accent) 60%, transparent);
+    border-radius: 2px;
+  }
+}

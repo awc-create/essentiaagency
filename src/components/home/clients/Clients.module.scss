@@ -1,0 +1,341 @@
+.section {
+  padding: clamp(72px, 9vw, 110px) 24px;
+  color: #fff;
+}
+
+.head {
+  text-align: center;
+  max-width: 880px;
+  margin: 0 auto 32px;
+
+  h2 {
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 900;
+  }
+
+  p {
+    margin-top: 8px;
+    color: #c9d1e3;
+  }
+}
+
+/* =========================
+   GRID (≤4)
+   ========================= */
+
+.grid {
+  width: min(1160px, 92vw);
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 240px);
+  gap: 32px;
+
+  justify-content: center;
+  justify-items: center;
+}
+
+/* =========================
+   CAROUSEL (5+)
+   KEY: don't clip vertical overflow
+   ========================= */
+
+.carousel {
+  position: relative;
+  width: min(1160px, 92vw);
+  margin: 0 auto;
+
+  overflow: visible;
+
+  /* room for expanded label */
+  padding-bottom: 76px;
+}
+
+/* ✅ Horizontal-only clipping */
+.viewport {
+  overflow-x: hidden;
+  overflow-y: visible;
+}
+
+/* Track glides */
+.track {
+  display: flex;
+  gap: 40px;
+  will-change: transform;
+  padding: 0 56px;
+}
+
+.slide {
+  flex: 0 0 auto;
+  width: 240px;
+}
+
+/* =========================
+   ARROWS
+   ========================= */
+
+.navBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 30;
+
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+
+  background: linear-gradient(180deg, #0b1f3a, #07152b);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+
+  box-shadow:
+    0 10px 22px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+  transition:
+    transform 0.15s ease,
+    filter 0.15s ease,
+    opacity 0.2s ease;
+}
+
+.navBtn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-50%) scale(1.05);
+}
+
+.prev {
+  left: 8px;
+}
+
+.next {
+  right: 8px;
+}
+
+/* =========================
+   CARD STACK
+   ========================= */
+
+.item {
+  display: grid;
+  grid-template-rows: auto auto;
+  justify-items: center;
+  width: 240px;
+
+  position: relative;
+  z-index: 1;
+
+  cursor: pointer;
+  outline: none;
+}
+
+.item:hover,
+.item:focus-within,
+.expanded {
+  z-index: 50;
+}
+
+/* =========================
+   CARD
+   ========================= */
+
+.card {
+  width: 240px;
+  height: 220px;
+  border-radius: 24px;
+  perspective: 1000px;
+
+  position: relative;
+  z-index: 2;
+
+  cursor: default;
+}
+
+.cardInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.23, 0.9, 0.35, 1);
+}
+
+/* Desktop hover flip (unchanged) */
+.item:hover .cardInner {
+  transform: rotateY(180deg);
+}
+
+/* Keyboard flip (unchanged) */
+.item:focus-within .cardInner {
+  transform: rotateY(180deg);
+}
+
+.face {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  backface-visibility: hidden;
+
+  background: linear-gradient(180deg, #0b1f3a, #07152b);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.face img {
+  max-width: 80%;
+  height: auto;
+}
+
+.back {
+  transform: rotateY(180deg);
+  padding: 18px;
+  text-align: left;
+}
+
+.back blockquote {
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0 0 10px;
+}
+
+.meta {
+  display: grid;
+  gap: 2px;
+  margin-bottom: 10px;
+
+  strong {
+    font-size: 14px;
+  }
+
+  span {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #a5b4fc;
+  }
+}
+
+/* =========================
+   STORY BUTTON
+   ========================= */
+
+.storyBtn {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* =========================
+   LABEL UNDER CARD
+   ========================= */
+
+.cardLabel {
+  position: relative;
+  z-index: 10;
+
+  margin-top: 14px;
+  padding: 8px 14px;
+
+  width: 100%;
+  max-width: 100%;
+  border-radius: 999px;
+
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+
+  background: linear-gradient(180deg, #0b1f3a, #07152b);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+
+  box-shadow:
+    0 8px 18px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+  /* ✅ default: ONE LINE (desktop + mobile) */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  transition:
+    border-radius 0.25s ease,
+    filter 0.2s ease;
+}
+
+/* Desktop expand on hover/focus (unchanged) */
+.item:hover .cardLabel,
+.item:focus-within .cardLabel {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+
+  display: block;
+
+  border-radius: 16px;
+  filter: brightness(1.06);
+}
+
+/* Mobile tap expand (only when expanded class exists) */
+.expanded .cardLabel {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  display: block;
+
+  border-radius: 16px;
+  filter: brightness(1.06);
+}
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 640px) {
+  .section {
+    padding: 64px 16px 92px;
+  }
+
+  .grid {
+    width: 100%;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fit, 220px);
+  }
+
+  .track {
+    gap: 22px;
+    padding: 0 44px;
+  }
+
+  .slide,
+  .item,
+  .card {
+    width: 220px;
+  }
+
+  .card {
+    height: 210px;
+  }
+
+  .navBtn {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+
+  /* ✅ IMPORTANT:
+     Do NOT override .cardLabel to 2 lines on mobile anymore.
+     This keeps mobile default identical to desktop (one-line ellipsis). */
+}

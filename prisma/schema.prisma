@@ -1,0 +1,219 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String?
+  role         String   @default("user")
+  passwordHash String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  image        String?
+}
+
+/// ========= Home: Hero =========
+model HeroHome {
+  id              String    @id @default(cuid())
+  key             String    @unique @default("home")
+  mediaType       MediaType @default(VIDEO)
+  imageSrc        String    @default("/assets/hero.png")
+  videoSrc        String?
+  posterSrc       String?
+  title           String    @default("Your Modern Website Starts Here")
+  description     String    @default("Crafted with performance and style in mind...")
+  ctaText         String    @default("APPLY FOR MEMBERSHIP")
+  ctaHref         String    @default("/apply")
+  overlayDarkness Float     @default(0.5)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model HomeAbout {
+  id             String   @id @default(cuid())
+  key            String   @unique @default("about")
+  eyebrow        String   @default("ABOUT Essentia")
+  title          String
+  lead           String
+  bullets        String[]
+  ctaPrimaryText String   @default("Learn more")
+  ctaPrimaryHref String   @default("/about")
+  ctaGhostText   String   @default("Enquire now")
+  ctaGhostHref   String   @default("/enquire")
+  quickFacts     Json     @default("[]")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  videoUrl       String?
+  videoPoster    String?
+  videoCaption   String?
+  values         Json     @default("[]")
+}
+
+/// ========= Home: Services (grid of cards) =========
+model HomeServices {
+  id        String   @id @default(cuid())
+  key       String   @unique @default("services")
+  kicker    String   @default("Our Services")
+  title     String   @default("Sound that fits the room.")
+  lead      String   @default("Two core offerings to start — built to scale with your brand.")
+  items     Json     @default("[]")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model HomeEnquire {
+  id             String   @id @default(cuid())
+  key            String   @unique @default("enquire")
+
+  // Section copy
+  eyebrow        String   @default("For venues & events")
+  title          String   @default("Enquire about DJs and live music.")
+  lead           String   @default("We curate DJs and musicians for restaurants, bars and event spaces — matching artists to your brand, guest profile and schedule.")
+  buttonLabel    String   @default("Open enquiry form")
+
+  // Modal copy
+  modalKicker    String   @default("Enquire Now")
+  modalTitle     String   @default("Tell us about your venue or event.")
+  modalLead      String   @default("Share a few details about your space, schedule and music brief — we’ll match you with the right artists.")
+  submitLabel    String   @default("Send enquiry") // ✅ ADD
+  successMessage String   @default("Thanks — we’ll be in touch shortly.")
+
+  // Dynamic form definition
+  formFields     Json     @default("[]")
+
+  // Routing / delivery
+  recipientEmail String?
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model HomeJoin {
+  id             String   @id @default(cuid())
+  key            String   @unique @default("join")
+
+  // Section copy
+  eyebrow        String   @default("For artists & collectives")
+  title          String   @default("Join the Essentia roster.")
+  lead           String   @default("DJs, musicians and live acts who care about atmosphere, consistency and good hospitality.")
+  buttonLabel    String   @default("Open application form")
+
+  // Modal copy
+  modalKicker    String   @default("Join Essentia")
+  modalTitle     String   @default("Tell us about your sound.")
+  modalLead      String   @default("Share links, socials and a short intro — we’ll review and get back if there’s a fit.")
+  submitLabel    String   @default("Apply to join") // ✅ ADD
+  successMessage String   @default("Thanks — we’ll review your submission and follow up.")
+
+  // Dynamic form definition
+  formFields     Json     @default("[]")
+
+  // Routing / delivery
+  recipientEmail String?
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model HomeContact {
+  id             String   @id @default(cuid())
+  key            String   @unique @default("contact")
+
+  // Section copy
+  eyebrow        String   @default("Contact")
+  title          String   @default("Send us a message.")
+  lead           String   @default("We’ll get back to you shortly.")
+  buttonLabel    String   @default("Open contact form")
+
+  // Public contact details (editable)
+  contactEmail   String   @default("info@Essentia.com") // ✅ ADD
+  contactPhone   String?                                 // ✅ ADD
+
+  // Socials (editable, extensible)
+  socialLinks    Json     @default("[]")                 // ✅ ADD
+
+  // Modal copy
+  modalKicker    String   @default("Contact")
+  modalTitle     String   @default("Send us a message.")
+  modalLead      String   @default("We’ll get back to you shortly.")
+  submitLabel    String   @default("Send Message")
+  successMessage String   @default("Thanks — we’ll be in touch soon.")
+
+  // Dynamic form definition
+  formFields     Json     @default("[]")
+
+  // Routing / delivery
+  recipientEmail String?
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model HomeClients {
+  id        String   @id @default(cuid())
+  key       String   @unique @default("clients")
+  title     String?  @default("Our Clients")
+  subtitle  String?  @default("Trusted by leading venues, bars and creative brands.")
+  items     Json     @default("[]")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model FaqPage {
+  id        String   @id @default(cuid())
+  key       String   @unique @default("faq")
+  eyebrow   String   @default("Help centre")
+  title     String   @default("Frequently asked questions.")
+  lead      String   @default("A quick guide for venues, events and artists working with Essentia. If you can’t find what you’re looking for, just get in touch.")
+  items     Json     @default("[]")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/// ========= Minimal About page content (your short model) =========
+model AboutUs {
+  id          String   @id @default(cuid())
+  key         String   @unique @default("about")
+  title       String
+  bullets     String[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  description String
+}
+
+model ContactPage {
+  id             String   @id @default(cuid())
+  key            String   @unique @default("contact")
+  title          String
+  description    String
+  submitLabel    String
+  successMessage String
+  recipientEmail String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Media {
+  id        String   @id @default(cuid())
+  name      String
+  url       String   @unique
+  size      Int      @default(0)
+  type      String   @default("unknown")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name])
+}
+
+/// ========= Enums =========
+enum MediaType {
+  VIDEO
+  IMAGE
+}

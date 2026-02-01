@@ -1,0 +1,390 @@
+// src/components/home/hero/Hero.module.scss
+/* -----------------------------------------------------------
+   Hero — Full-bleed, true full-height, solid black base
+   ----------------------------------------------------------- */
+
+.hero {
+  position: relative;
+  /* Escape any parent horizontal padding/gutters so the hero is full-bleed */
+  margin-left: calc(var(--gutter, 0%) * -1);
+  width: calc(100% + (var(--gutter, 0%) * 2));
+
+  /* True viewport height (no iOS/macOS chrome gaps) */
+  height: 100vh; /* fallback */
+  height: 100svh; /* precise */
+  min-height: 560px;
+
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  isolation: isolate;
+
+  /* Solid black hero slab (video will sit above this) */
+  background: #000;
+  z-index: 0;
+}
+
+.media {
+  position: absolute;
+  inset: 0;
+
+  /* While media loads, keep it black (prevents flashes) */
+  background-color: #000;
+
+  .video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.02);
+    filter: saturate(1.05) contrast(1.05);
+  }
+}
+
+/* When there’s no media yet, still render a pure black panel */
+.noMedia {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: #000;
+}
+
+.fallbackBg {
+  width: 100%;
+  height: 100%;
+  background: #000;
+}
+
+/* Overlay helps text legibility over future media.
+   On solid black, it’s visually subtle but harmless. */
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.45) 0%,
+      rgba(0, 0, 0, 0.5) 40%,
+      rgba(0, 0, 0, 0.55) 100%
+    ),
+    radial-gradient(100% 60% at 50% 20%, rgba(0, 0, 0, 0.25), transparent 60%);
+}
+
+/* -----------------------------------------------------------
+   Content & spacing — tightened, consistent vertical rhythm
+   ----------------------------------------------------------- */
+
+.content {
+  position: relative;
+  z-index: 3;
+  color: #fff;
+  text-align: center;
+
+  /* Use grid to control vertical rhythm precisely */
+  display: grid;
+  justify-items: center;
+  gap: clamp(10px, 1.8vw, 18px);
+
+  /* side padding for small screens */
+  padding: 0 clamp(16px, 3vw, 40px);
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Big wordmark line with pill kicker on the left */
+/* ===============================
+   Wordmark integration
+   =============================== */
+
+/* Outer H1 wrapper */
+.kicker {
+  margin: 0;
+  line-height: 1.1;
+  text-align: center;
+  font-weight: 800;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6em;
+}
+
+/* Small pill above the wordmark */
+.kicker .badge {
+  display: inline-block;
+  font-size: clamp(12px, 1.4vw, 14px);
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  opacity: 0.95;
+  padding: 0.5em 1em;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  vertical-align: middle;
+  line-height: 1;
+  color: #fff;
+}
+
+/* The Essentia wordmark image */
+.wordmark {
+  position: relative;
+  display: block;
+  width: min(90vw, 980px);
+  height: clamp(46px, 8vw, 110px);
+}
+
+.wordmark :global(img) {
+  object-fit: contain;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+/* Mobile adjustments */
+@media (max-width: 720px) {
+  .wordmark {
+    width: min(94vw, 640px);
+    height: clamp(50px, 12vw, 84px);
+  }
+}
+
+
+/* The small uppercase subtitle below the giant wordmark */
+.subtitle {
+  margin: 0; /* grid gap handles spacing */
+  font-size: clamp(14px, 2vw, 20px);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.95;
+}
+
+/* Body copy line (you already render this as cfg.description) */
+.tagline {
+  margin: 0;
+  max-width: min(92ch, 100%);
+  font-size: clamp(15px, 1.6vw, 18px);
+  line-height: 1.75;
+  color: #eaeaea;
+
+  /* ✅ THIS IS THE KEY */
+  white-space: pre-line;
+
+  /* Optional polish */
+  text-wrap: balance;
+}
+
+/* CTA row */
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 0; /* grid gap handles spacing */
+}
+
+.ctaPrimary {
+  --btn-bg: #e7d7a7;
+  --btn-fg: #0b0b0b;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 14px 22px;
+  border-radius: 999px;
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.25),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  transition:
+    transform 0.06s ease,
+    filter 0.2s ease;
+}
+.ctaPrimary:hover {
+  filter: brightness(1.04);
+}
+.ctaPrimary:active {
+  transform: translateY(1px);
+}
+
+/* Scroll cue */
+.scrollDown {
+  position: absolute;
+  bottom: clamp(28px, 7vh, 64px);
+  left: 50%;
+  translate: -50% 0;
+  z-index: 3;
+  font-size: 1.75rem;
+  color: #fff;
+  opacity: 0.85;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  animation: bounce 2s infinite;
+}
+
+/* Optional: if you want NO bottom fade over the solid black hero,
+   comment this out. Keeping it softer avoids a “gap” illusion. */
+.hero::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 48px; /* softer than 80px */
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.35) 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* -----------------------------------------------------------
+   Animations / responsive / a11y
+   ----------------------------------------------------------- */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(6px);
+  }
+  60% {
+    transform: translateY(3px);
+  }
+}
+
+/* Mobile tweaks */
+@media (max-width: 900px) {
+  .hero {
+    min-height: 520px;
+  }
+  .kicker .badge {
+    display: block;
+    margin: 0 auto 0.55em;
+    transform: none;
+  }
+  .content {
+    gap: clamp(12px, 3.5vw, 16px);
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .content {
+    animation: none;
+  }
+  .scrollDown {
+    animation: none;
+  }
+}
+
+/* --- Mobile polish ------------------------------------------------------ */
+@media (max-width: 720px) {
+  .hero {
+    min-height: 500px;
+  }
+
+  .content {
+    /* add vertical breathing room and safe-area awareness */
+    padding-block: clamp(12px, 4vh, 28px) max(16px, env(safe-area-inset-bottom));
+    padding-inline: clamp(16px, 5vw, 28px);
+    gap: clamp(10px, 3.2vw, 14px);
+    max-width: 640px;
+  }
+
+  /* make overlay a touch stronger on small screens for legibility */
+  .overlay {
+    background:
+      linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.58) 0%,
+        rgba(0, 0, 0, 0.62) 40%,
+        rgba(0, 0, 0, 0.68) 100%
+      ),
+      radial-gradient(100% 60% at 50% 20%, rgba(0, 0, 0, 0.35), transparent 60%);
+  }
+
+  .kicker {
+    font-size: clamp(34px, 10vw, 56px);
+    letter-spacing: 0.03em;
+  }
+  .kicker .badge {
+    font-size: 0.42em;
+    padding: 0.45em 0.8em;
+    border-width: 1px;
+    margin: 0 auto 0.5em;
+  }
+
+  .subtitle {
+    font-size: clamp(12px, 3.2vw, 15px);
+    letter-spacing: 0.12em; /* less spaced for readability */
+    opacity: 0.95;
+  }
+
+  .tagline {
+    max-width: 60ch; /* narrower measure reads better */
+    font-size: clamp(14px, 3.6vw, 16px);
+    line-height: 1.75;
+  }
+
+  .actions {
+    margin-top: 2px;
+  }
+
+  .ctaPrimary {
+    padding: 14px 20px;
+    font-size: clamp(13px, 3.4vw, 14px);
+    box-shadow:
+      0 8px 22px rgba(0, 0, 0, 0.28),
+      inset 0 -2px 0 rgba(0, 0, 0, 0.12);
+  }
+}
+
+@media (max-width: 420px) {
+  .content {
+    gap: 10px;
+  }
+
+  /* Optional: make CTA span width nicely on very small phones */
+  .ctaPrimary {
+    width: 100%;
+    max-width: 360px;
+  }
+
+  /* Optional: clamp long copy to avoid overflow walls */
+  .tagline {
+    display: -webkit-box;
+    display: box; /* standard fallback */
+    -webkit-line-clamp: 4;
+    line-clamp: 4; /* ← standard property */
+    -webkit-box-orient: vertical;
+    box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Nudge the scroll chevron up a bit to clear the home bar */
+  .scrollDown {
+    bottom: max(24px, calc(env(safe-area-inset-bottom) + 18px));
+  }
+}
+
+/* Subtle text glow for contrast over busy video (kept tiny) */
+.content :where(.kicker, .subtitle, .tagline) {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+}

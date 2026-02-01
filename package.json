@@ -1,0 +1,61 @@
+{
+  "name": "Essentia",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "format": "prettier --write .",
+    "prepare": "husky",
+    "seed:admin": "ts-node scripts/seed-admin.ts",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate:deploy": "prisma migrate deploy"
+  },
+  "dependencies": {
+    "@iconify/react": "^6.0.2",
+    "@prisma/client": "^6.17.1",
+    "@uploadthing/react": "^7.3.3",
+    "bcryptjs": "^3.0.3",
+    "framer-motion": "^12.23.24",
+    "lottie-react": "^2.4.1",
+    "lucide-react": "^0.546.0",
+    "motion": "^12.23.24",
+    "next": "15.5.6",
+    "next-auth": "^4.24.13",
+    "nodemailer": "^7.0.11",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-icons": "^5.5.0",
+    "resend": "^6.5.2",
+    "uploadthing": "^7.7.4"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/nodemailer": "^7.0.4",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9.38.0",
+    "eslint-config-next": "15.5.6",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.4",
+    "prettier": "^3.6.2",
+    "prisma": "^6.17.1",
+    "sass": "^1.93.2",
+    "tailwindcss": "^4",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
+    "typescript": "^5"
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "prettier --write",
+      "eslint --fix"
+    ]
+  }
+}
