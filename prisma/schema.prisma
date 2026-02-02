@@ -78,11 +78,15 @@ model HomeEnquire {
   lead           String   @default("We curate DJs and musicians for restaurants, bars and event spaces — matching artists to your brand, guest profile and schedule.")
   buttonLabel    String   @default("Open enquiry form")
 
+  // ✅ Secondary CTA (editable)
+  consultCallLabel String  @default("Book consultant call")
+  consultCallUrl   String  @default("https://calendar.app.google/hdvYediQuWn4wDQH6")
+
   // Modal copy
   modalKicker    String   @default("Enquire Now")
   modalTitle     String   @default("Tell us about your venue or event.")
   modalLead      String   @default("Share a few details about your space, schedule and music brief — we’ll match you with the right artists.")
-  submitLabel    String   @default("Send enquiry") // ✅ ADD
+  submitLabel    String   @default("Send enquiry")
   successMessage String   @default("Thanks — we’ll be in touch shortly.")
 
   // Dynamic form definition

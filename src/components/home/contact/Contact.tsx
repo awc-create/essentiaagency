@@ -27,9 +27,9 @@ type SocialPlatform =
 type SocialLink = { platform: SocialPlatform; url: string };
 
 type ContactConfig = {
-  eyebrow: string;
+  eyebrow: string; // allow ""
   title: string;
-  lead: string;
+  lead: string; // allow ""
   buttonLabel: string;
 
   contactEmail: string;
@@ -38,9 +38,9 @@ type ContactConfig = {
 };
 
 const FALLBACK: ContactConfig = {
-  eyebrow: "LET'S CONNECT",
+  eyebrow: '', // ✅ default hidden
   title: 'Get in touch',
-  lead: 'General enquiries',
+  lead: '', // ✅ default hidden
   buttonLabel: 'Open contact form',
   contactEmail: 'info@Essentia.com',
   contactPhone: null,
@@ -82,7 +82,16 @@ export default function Contact() {
         const res = await fetch('/api/home/contact', { cache: 'no-store' });
         if (!res.ok) return;
         const data = (await res.json()) as Partial<ContactConfig>;
-        setCfg({ ...FALLBACK, ...data, socialLinks: data.socialLinks ?? [] });
+
+        setCfg({
+          ...FALLBACK,
+          ...data,
+          eyebrow: (data.eyebrow ?? FALLBACK.eyebrow).trim(),
+          lead: (data.lead ?? FALLBACK.lead).trim(),
+          title: (data.title ?? FALLBACK.title).trim(),
+          buttonLabel: (data.buttonLabel ?? FALLBACK.buttonLabel).trim(),
+          socialLinks: data.socialLinks ?? [],
+        });
       } catch {
         // ignore
       }
@@ -93,13 +102,13 @@ export default function Contact() {
     <>
       <section className={styles.section} id="contact" aria-labelledby="contact-heading">
         <div className={styles.inner}>
-          <p className={styles.kicker}>{cfg.eyebrow}</p>
+          {cfg.eyebrow ? <p className={styles.kicker}>{cfg.eyebrow}</p> : null}
 
           <h2 id="contact-heading" className={styles.title}>
             {cfg.title}
           </h2>
 
-          <p className={styles.lead}>{cfg.lead}</p>
+          {cfg.lead ? <p className={styles.lead}>{cfg.lead}</p> : null}
 
           <button
             type="button"

@@ -1,3 +1,4 @@
+// src/components/home/enquire/Enquire.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -10,6 +11,9 @@ type EnquireConfig = {
   title: string;
   lead: string;
   buttonLabel: string;
+
+  consultCallLabel: string; // allow ""
+  consultCallUrl: string; // allow ""
 };
 
 const FALLBACK: EnquireConfig = {
@@ -17,9 +21,10 @@ const FALLBACK: EnquireConfig = {
   title: 'Enquire about DJs and live music.',
   lead: 'We curate DJs and musicians for restaurants, bars and event spaces — matching artists to your brand, guest profile and schedule.',
   buttonLabel: 'Open enquiry form',
-};
 
-const CONSULT_CALL_URL = 'https://calendar.app.google/hdvYediQuWn4wDQH6';
+  consultCallLabel: 'Book consultant call',
+  consultCallUrl: 'https://calendar.app.google/hdvYediQuWn4wDQH6',
+};
 
 export default function Enquire() {
   const { openEnquire } = useModals();
@@ -31,12 +36,20 @@ export default function Enquire() {
         const res = await fetch('/api/home/enquire', { cache: 'no-store' });
         if (!res.ok) return;
         const data = (await res.json()) as Partial<EnquireConfig>;
-        setCfg({ ...FALLBACK, ...data });
+
+        setCfg({
+          ...FALLBACK,
+          ...data,
+          consultCallLabel: (data.consultCallLabel ?? FALLBACK.consultCallLabel).trim(),
+          consultCallUrl: (data.consultCallUrl ?? FALLBACK.consultCallUrl).trim(),
+        });
       } catch {
         // ignore
       }
     })();
   }, []);
+
+  const showConsult = Boolean(cfg.consultCallUrl?.trim());
 
   return (
     <>
@@ -55,15 +68,17 @@ export default function Enquire() {
               {cfg.buttonLabel}
             </button>
 
-            <a
-              className={styles.ctaSecondary}
-              href={CONSULT_CALL_URL}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Book a consultant call (opens in a new tab)"
-            >
-              Book consultant call
-            </a>
+            {showConsult ? (
+              <a
+                className={styles.ctaSecondary}
+                href={cfg.consultCallUrl}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`${cfg.consultCallLabel || 'Book consultant call'} (opens in a new tab)`}
+              >
+                {cfg.consultCallLabel || 'Book consultant call'}
+              </a>
+            ) : null}
           </div>
         </div>
       </section>

@@ -1,4 +1,3 @@
-// src/app/api/home/contact/route.ts
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { revalidatePath } from 'next/cache';
@@ -59,27 +58,22 @@ export type FormField = {
 };
 
 export type ContactConfig = {
-  // section
-  eyebrow: string;
+  eyebrow: string; // allow ""
   title: string;
-  lead: string;
+  lead: string; // allow ""
   buttonLabel: string;
 
-  // public details (shown on site)
-  contactEmail: string; // allow "" to mean “hidden”
+  contactEmail: string; // allow "" to hide
   contactPhone?: string | null;
 
-  // delivery (where emails go)
   recipientEmail?: string | null;
 
-  // modal
   modalKicker: string;
   modalTitle: string;
   modalLead: string;
   submitLabel: string;
   successMessage: string;
 
-  // socials + fields
   socialLinks: SocialLink[];
   fields: FormField[];
 };
@@ -96,7 +90,7 @@ const DEFAULT_CONFIG: ContactConfig = {
   lead: 'General enquiries',
   buttonLabel: 'Open contact form',
 
-  contactEmail: '', // IMPORTANT: empty = hide
+  contactEmail: '',
   contactPhone: null,
 
   recipientEmail: null,
@@ -111,9 +105,6 @@ const DEFAULT_CONFIG: ContactConfig = {
   fields: DEFAULT_FIELDS,
 };
 
-/** -----------------------------
- *  Guards / sanitizers
- *  ---------------------------- */
 function isRecord(v: unknown): v is Record<string, unknown> {
   return typeof v === 'object' && v !== null && !Array.isArray(v);
 }
@@ -240,12 +231,12 @@ function sanitizeConfig(body: unknown): ContactConfig {
   const socialLinks = sanitizeSocialLinks(b.socialLinks);
 
   return {
-    eyebrow: str(b.eyebrow) || DEFAULT_CONFIG.eyebrow,
+    // ✅ allow empty strings (don’t force defaults)
+    eyebrow: str(b.eyebrow),
     title: str(b.title) || DEFAULT_CONFIG.title,
-    lead: str(b.lead) || DEFAULT_CONFIG.lead,
+    lead: str(b.lead),
     buttonLabel: str(b.buttonLabel) || DEFAULT_CONFIG.buttonLabel,
 
-    // allow "" to hide email icon entirely
     contactEmail: str(b.contactEmail),
     contactPhone: str(b.contactPhone) || null,
 
@@ -262,9 +253,6 @@ function sanitizeConfig(body: unknown): ContactConfig {
   };
 }
 
-/** -----------------------------
- *  Handlers
- *  ---------------------------- */
 export async function GET() {
   try {
     const row = await prisma.homeContact.findUnique({ where: { key: KEY } });
@@ -279,12 +267,12 @@ export async function GET() {
     const socialLinks = sanitizeSocialLinks(socialsRaw);
 
     const config: ContactConfig = {
-      eyebrow: row.eyebrow || DEFAULT_CONFIG.eyebrow,
+      // ✅ allow empty strings through (no fallback)
+      eyebrow: (row.eyebrow ?? '').trim(),
       title: row.title || DEFAULT_CONFIG.title,
-      lead: row.lead || DEFAULT_CONFIG.lead,
+      lead: (row.lead ?? '').trim(),
       buttonLabel: row.buttonLabel || DEFAULT_CONFIG.buttonLabel,
 
-      // allow blank
       contactEmail: (row.contactEmail ?? '').trim(),
       contactPhone: row.contactPhone ?? null,
 
@@ -320,12 +308,12 @@ export async function POST(req: Request) {
       create: {
         key: KEY,
 
-        eyebrow: data.eyebrow,
+        eyebrow: data.eyebrow, // can be ""
         title: data.title,
-        lead: data.lead,
+        lead: data.lead, // can be ""
         buttonLabel: data.buttonLabel,
 
-        contactEmail: data.contactEmail, // can be ""
+        contactEmail: data.contactEmail,
         contactPhone: data.contactPhone,
         recipientEmail: data.recipientEmail,
 
@@ -344,7 +332,7 @@ export async function POST(req: Request) {
         lead: data.lead,
         buttonLabel: data.buttonLabel,
 
-        contactEmail: data.contactEmail, // can be ""
+        contactEmail: data.contactEmail,
         contactPhone: data.contactPhone,
         recipientEmail: data.recipientEmail,
 
@@ -359,7 +347,6 @@ export async function POST(req: Request) {
       },
     });
 
-    // Revalidate whatever pages include Contact section
     revalidatePath('/');
     return NextResponse.json({ ok: true, id: saved.id });
   } catch (e) {
