@@ -6,13 +6,9 @@ import { useModals } from '../modals/ModalContext';
 import styles from './EnquireModal.module.scss';
 import HelpTip from '@/components/home/modals/HelpTip';
 
-import type { ApiFormConfig, FormField } from '@/types/form-builder';
+import type { FormField } from '@/types/form-builder';
 import { normalizeFields } from '@/lib/form-builder';
-import {
-  renderFieldControl,
-  shouldShowField,
-  type Values,
-} from '@/components/home/modals/renderField';
+import { renderFieldControl, shouldShowField, type Values } from '@/components/home/modals/renderField';
 
 type EnquireConfig = {
   modalKicker: string;
@@ -23,13 +19,22 @@ type EnquireConfig = {
   formFields: FormField[];
 };
 
+type EnquireApiResponse = {
+  // these are the keys your route returns
+  modalKicker?: string;
+  modalTitle?: string;
+  modalLead?: string;
+  submitLabel?: string;
+  successMessage?: string;
+  fields?: FormField[];
+};
+
 type FormState = 'idle' | 'submitting' | 'success' | 'error';
 
 const FALLBACK: EnquireConfig = {
   modalKicker: 'Enquire',
   modalTitle: 'Tell us what you need.',
-  modalLead:
-    'Send us your event details, dates and location. We’ll respond with availability and next steps.',
+  modalLead: 'Send us your event details, dates and location. We’ll respond with availability and next steps.',
   submitLabel: 'Send Enquiry',
   successMessage: 'Thanks — we’ll be in touch shortly.',
   formFields: [
@@ -125,13 +130,14 @@ const FALLBACK: EnquireConfig = {
   ],
 };
 
-function mapApiToModal(api: Partial<ApiFormConfig>): EnquireConfig {
-  const fields = normalizeFields(api.fields, 'enquire');
+function mapApiToModal(api: Partial<EnquireApiResponse>): EnquireConfig {
+  const fields = normalizeFields(api.fields ?? [], 'enquire');
 
   return {
     ...FALLBACK,
-    modalTitle: (api.title ?? '').trim() || FALLBACK.modalTitle,
-    modalLead: (api.intro ?? '').trim() || FALLBACK.modalLead,
+    modalKicker: (api.modalKicker ?? '').trim() || FALLBACK.modalKicker,
+    modalTitle: (api.modalTitle ?? '').trim() || FALLBACK.modalTitle,
+    modalLead: (api.modalLead ?? '').trim() || FALLBACK.modalLead,
     submitLabel: (api.submitLabel ?? '').trim() || FALLBACK.submitLabel,
     successMessage: (api.successMessage ?? '').trim() || FALLBACK.successMessage,
     formFields: fields.length ? fields : FALLBACK.formFields,
@@ -185,7 +191,7 @@ export default function EnquireModal() {
     };
   }, [visible]);
 
-  // Hydrate config
+  // Hydrate config from /api/home/enquire (THIS is why we update the modal)
   useEffect(() => {
     let mounted = true;
 
@@ -193,7 +199,7 @@ export default function EnquireModal() {
       try {
         const res = await fetch('/api/home/enquire', { cache: 'no-store' });
         if (!res.ok) return;
-        const json = (await res.json()) as Partial<ApiFormConfig>;
+        const json = (await res.json()) as Partial<EnquireApiResponse>;
         if (!mounted) return;
         setConfig(mapApiToModal(json));
       } catch {
@@ -236,7 +242,7 @@ export default function EnquireModal() {
       form.reset();
       setFormValues({});
 
-      // ✅ auto close after 5s
+      // auto close after 5s
       clearCloseTimer();
       closeTimerRef.current = window.setTimeout(() => {
         close();
@@ -256,7 +262,6 @@ export default function EnquireModal() {
 
         <div className={styles.scrollArea}>
           {status === 'success' ? (
-            // ✅ compact thank-you view
             <div className={styles.successWrap}>
               <p className={styles.kicker}>{config.modalKicker}</p>
               <h2 className={styles.successTitle}>Enquiry sent</h2>
