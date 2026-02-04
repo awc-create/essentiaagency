@@ -5,11 +5,12 @@ import styles from './SiteSettings.module.scss';
 import FAQSettings from './FAQSettings';
 import AccountSettings from './AccountSettings';
 
-type SettingsTab = 'account' | 'faq';
+type SettingsTab = 'account' | 'faq' | 'site';
 
 const TABS: { key: SettingsTab; label: string }[] = [
   { key: 'account', label: 'Account' },
   { key: 'faq', label: 'FAQ' },
+  { key: 'site', label: 'Site' },
 ];
 
 export default function SiteSettings() {
@@ -62,6 +63,7 @@ export default function SiteSettings() {
       <div className={styles.panel} role="tabpanel">
         {active === 'account' && <AccountSettings />}
         {active === 'faq' && <FAQSettings />}
+        {active === 'site' && <SiteLockSettings />}
       </div>
     </section>
   );
