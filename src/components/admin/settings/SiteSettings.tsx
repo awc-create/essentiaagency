@@ -4,6 +4,7 @@ import { useState, type ChangeEvent } from 'react';
 import styles from './SiteSettings.module.scss';
 import FAQSettings from './FAQSettings';
 import AccountSettings from './AccountSettings';
+import SiteLockSettings from './SiteLockSettings';
 
 type SettingsTab = 'account' | 'faq' | 'site';
 
