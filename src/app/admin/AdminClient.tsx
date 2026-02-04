@@ -6,7 +6,7 @@ import styles from './AdminClient.module.scss';
 import Image from 'next/image';
 
 import HomeSettings from '@/components/admin/home/HomeSettings';
-import AccountSettings from '@/components/admin/settings/AccountSettings';
+import SiteSettings from '@/components/admin/settings/SiteSettings';
 
 import { signOut } from 'next-auth/react';
 
@@ -101,7 +101,8 @@ export default function AdminClient() {
   const render = () => {
     switch (active) {
       case 'settings':
-        return <AccountSettings />;
+        // ✅ IMPORTANT: Render the settings hub with tabs
+        return <SiteSettings />;
       case 'home':
       default:
         return <HomeSettings />;
@@ -142,7 +143,7 @@ export default function AdminClient() {
         </div>
 
         <div className={styles.topRight}>
-          {/* ✅ avatar + Alex D */}
+          {/* ✅ avatar + name */}
           <div className={styles.badge} title={topName}>
             <div className={styles.avatar}>
               <Image
@@ -211,9 +212,7 @@ export default function AdminClient() {
           <div className={styles.sectionHero}>
             <div className={styles.sectionBadge}>{activeMeta.label}</div>
             <h1>{activeMeta.hint}</h1>
-            <p>
-              Make changes with confidence. Everything is version-friendly and designed for speed.
-            </p>
+            <p>Make changes with confidence. Everything is version-friendly and designed for speed.</p>
           </div>
 
           <div className={styles.panel}>{render()}</div>
