@@ -148,9 +148,6 @@ export async function POST(req: NextRequest) {
       'Thanks for sending through your details.',
       'We review every application carefully and will come back to you if we think there’s a fit.',
       '',
-      BOOKING_URL ? 'If you’ve been invited to book an intro chat, you can use this link:' : '',
-      BOOKING_URL ? BOOKING_URL : '',
-      '',
       '— The Essentia team',
     ]
       .filter(Boolean)
@@ -179,19 +176,6 @@ export async function POST(req: NextRequest) {
                       <p style="margin:12px 0 0;font-size:13px;color:rgba(148,163,184,0.95);">
                         We review every application carefully and we’ll be in touch if we think there’s a good fit for our current venues and projects.
                       </p>
-
-                      ${
-                        BOOKING_URL
-                          ? `<p style="margin:16px 0 0;font-size:13px;color:rgba(148,163,184,0.95);">
-                               If we’ve already invited you to book an intro chat, you can choose a time here:
-                             </p>
-                             <p style="margin:10px 0 0;">
-                               <a href="${BOOKING_URL}" style="display:inline-block;padding:10px 18px;border-radius:999px;background:#facc6b;color:#020617;font-weight:700;font-size:13px;text-decoration:none;">
-                                 Book an intro chat
-                               </a>
-                             </p>`
-                          : ''
-                      }
 
                       <p style="margin:18px 0 0;font-size:13px;color:rgba(209,213,219,0.95);">
                         — The Essentia team
