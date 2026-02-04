@@ -70,7 +70,7 @@ const Footer: React.FC = () => {
           <span className={styles.socialLabel}>Follow</span>
           <div className={styles.socialIcons}>
             <a
-              href="https://www.instagram.com/Essentia_artist_agency"
+              href="https://www.instagram.com/essentiaagency_/"
               target="_blank"
               rel="noreferrer"
               aria-label="Essentia Instagram"
@@ -79,7 +79,7 @@ const Footer: React.FC = () => {
             </a>
 
             <a
-              href="https://www.tiktok.com/@Essentia_artist_agency"
+              href="https://www.tiktok.com/@essentiaagency_?_r=1&_t=ZN-93djC66aSVa"
               target="_blank"
               rel="noreferrer"
               aria-label="Essentia TikTok"
