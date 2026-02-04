@@ -2,8 +2,9 @@
 
 import { useState, type ChangeEvent } from 'react';
 import styles from './SiteSettings.module.scss';
-import FAQSettings from './FAQSettings';
+
 import AccountSettings from './AccountSettings';
+import FAQSettings from './FAQSettings';
 import SiteLockSettings from './SiteLockSettings';
 
 type SettingsTab = 'account' | 'faq' | 'site';
@@ -11,7 +12,7 @@ type SettingsTab = 'account' | 'faq' | 'site';
 const TABS: { key: SettingsTab; label: string }[] = [
   { key: 'account', label: 'Account' },
   { key: 'faq', label: 'FAQ' },
-  { key: 'site', label: 'Site' },
+  { key: 'site', label: 'Site lock' },
 ];
 
 export default function SiteSettings() {
