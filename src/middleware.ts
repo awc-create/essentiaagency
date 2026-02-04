@@ -1,6 +1,24 @@
+// src/middleware.ts
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { getToken } from 'next-auth/jwt';
+import { prisma } from '@/lib/prisma';
+
+export const runtime = 'nodejs';
+
+async function getLockEnabled(): Promise<boolean> {
+  try {
+    const row = await prisma.siteConfig.findUnique({ where: { key: 'site_lock' } });
+    const raw = row?.value as unknown;
+
+    if (!raw || typeof raw !== 'object') return false;
+    return (raw as { enabled?: boolean }).enabled === true;
+  } catch (e) {
+    console.error('middleware site_lock read failed:', e);
+    // Safe default: unlocked
+    return false;
+  }
+}
 
 export async function middleware(req: NextRequest) {
   const { pathname, search } = req.nextUrl;
@@ -32,9 +50,9 @@ export async function middleware(req: NextRequest) {
   }
 
   // -----------------------------------
-  // 2) SITE LOCK (COMING SOON)
+  // 2) SITE LOCK (COMING SOON)  ✅ DB-backed
   // -----------------------------------
-  const lockEnabled = process.env.SITE_LOCK_ENABLED === 'true';
+  const lockEnabled = await getLockEnabled();
   if (!lockEnabled) return NextResponse.next();
 
   // Allowlist

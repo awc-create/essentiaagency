@@ -19,6 +19,13 @@ model User {
   image        String?
 }
 
+model SiteConfig {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     Json
+  updatedAt DateTime @updatedAt
+}
+
 /// ========= Home: Hero =========
 model HeroHome {
   id              String    @id @default(cuid())

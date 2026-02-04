@@ -1,27 +1,20 @@
-/* src/components/admin/settings/SiteLockSettings.module.scss */
-
 .section {
-  margin-bottom: 2rem;
-
   h2 {
-    margin-bottom: 0.25rem;
+    margin: 0 0 6px;
+    color: #f9fafb;
     font-size: 1.25rem;
     letter-spacing: 0.02em;
-    color: #f9fafb;
   }
 
   p {
+    margin: 0 0 14px;
     color: var(--muted);
-    margin: 0 0 1rem;
     font-size: 0.95rem;
+    line-height: 1.55;
   }
 }
 
-.form {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  margin-top: 0.25rem;
+.card {
   padding: 16px 16px 18px;
   border-radius: 16px;
 
@@ -30,21 +23,32 @@
   box-shadow:
     inset 0 0 18px rgba(15, 23, 42, 0.9),
     0 18px 40px rgba(0, 0, 0, 0.5);
+
+  display: grid;
+  gap: 12px;
 }
 
-.full {
-  grid-column: 1 / -1;
+.row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 14px;
+  align-items: start;
 }
 
-.subTitle {
-  margin: 0 0 6px;
+.left {
+  min-width: 0;
+}
+
+.title {
+  font-weight: 900;
+  font-size: 1.05rem;
   color: #f9fafb;
 }
 
-.subText {
-  margin: 0;
-  color: var(--muted);
-  line-height: 1.6;
+.sub {
+  margin-top: 6px;
+  color: rgba(229, 231, 235, 0.78);
+  line-height: 1.55;
 
   code {
     padding: 0.1rem 0.35rem;
@@ -56,12 +60,66 @@
 }
 
 .actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.6rem;
-  flex-wrap: wrap;
+  display: grid;
+  gap: 10px;
+  justify-items: end;
+  align-content: start;
 }
 
+/* Switch */
+.switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+
+  input {
+    display: none;
+  }
+}
+
+.slider {
+  width: 54px;
+  height: 30px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  background: rgba(0, 0, 0, 0.25);
+  position: relative;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 4px;
+    width: 22px;
+    height: 22px;
+    border-radius: 999px;
+    transform: translateY(-50%);
+    background: rgba(229, 231, 235, 0.9);
+    transition: left 0.18s ease, background 0.18s ease;
+  }
+}
+
+.switch input:checked + .slider {
+  border-color: rgba(229, 193, 122, 0.55);
+  background: rgba(229, 193, 122, 0.15);
+
+  &::after {
+    left: 28px;
+    background: rgba(240, 215, 154, 1);
+  }
+}
+
+.switchLabel {
+  font-weight: 900;
+  letter-spacing: 0.03em;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.9rem;
+}
+
+/* Buttons */
 .primary {
   padding: 0.7rem 1.3rem;
   border-radius: 999px;
@@ -80,7 +138,6 @@
   font-size: 0.9rem;
 
   cursor: pointer;
-
   box-shadow: 0 14px 30px rgba(15, 23, 42, 0.9);
   transition:
     transform 0.08s ease,
@@ -94,7 +151,7 @@
   }
 
   &:disabled {
-    opacity: 0.6;
+    opacity: 0.55;
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
@@ -102,27 +159,52 @@
 }
 
 .secondary {
-  padding: 0.7rem 1.1rem;
+  padding: 0.68rem 1.1rem;
   border-radius: 999px;
-  border: 1px solid rgba(148, 163, 184, 0.5);
-  background: rgba(0, 0, 0, 0.25);
-  color: #e5e7eb;
-  font-weight: 700;
-  font-size: 0.9rem;
+  border: 1px solid rgba(148, 163, 184, 0.55);
+  background: rgba(0, 0, 0, 0.18);
+  color: rgba(255, 255, 255, 0.86);
+  font-weight: 900;
+  letter-spacing: 0.02em;
   cursor: pointer;
 
   &:hover {
-    border-color: var(--accent);
-    background: rgba(0, 0, 0, 0.35);
+    border-color: rgba(229, 193, 122, 0.6);
   }
 }
 
+/* Status badge */
+.badge {
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  background: rgba(0, 0, 0, 0.25);
+  color: #e5e7eb;
+  font-size: 0.82rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.badge[data-status='ok'] {
+  border-color: rgba(34, 197, 94, 0.45);
+}
+
+.badge[data-status='error'] {
+  border-color: rgba(239, 68, 68, 0.55);
+}
+
+.badge[data-status='loading'] {
+  border-color: rgba(226, 193, 122, 0.55);
+}
+
+/* Notice */
 .notice {
   padding: 12px;
   border-radius: 12px;
   border: 1px solid rgba(148, 163, 184, 0.25);
   background: rgba(0, 0, 0, 0.25);
   color: #e5e7eb;
+  line-height: 1.5;
 }
 
 .noticeOk {
@@ -133,13 +215,18 @@
   border-color: rgba(239, 68, 68, 0.45);
 }
 
-@media (max-width: 880px) {
-  .form {
+.hint {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+  .row {
     grid-template-columns: 1fr;
   }
 
   .actions {
-    justify-content: stretch;
+    justify-items: stretch;
   }
 
   .primary,

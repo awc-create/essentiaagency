@@ -1,9 +1,7 @@
 import type { Metadata } from 'next';
 import '@/styles/Global.scss';
-import Navbar from '@/components/navbar/Navbar';
-import Footer from '@/components/footer/Footer';
-import SkyOverlay from '@/components/theme/SkyOverlay';
 import Providers from './providers';
+import AppShell from '@/components/layout/AppShell';
 
 export const metadata: Metadata = {
   icons: {
@@ -21,13 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body>
         <Providers>
-          <div className="app-shell">
-            <SkyOverlay />
-            <div className="site-grain" aria-hidden="true" />
-            <Navbar />
-            <main>{children}</main>
-            <Footer />
-          </div>
+          <AppShell>{children}</AppShell>
         </Providers>
       </body>
     </html>
