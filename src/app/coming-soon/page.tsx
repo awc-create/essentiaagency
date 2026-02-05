@@ -1,9 +1,25 @@
+// src/app/coming-soon/page.tsx
+import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import ComingSoonClient from './ComingSoonClient';
 
-export const metadata = {
-  title: 'Coming Soon | ESSENTIA',
-  description: 'We’re finishing the site. If you have access, enter the password.',
+export const metadata: Metadata = {
+  title:
+    'ESSENTIA | Curated DJs & Live Music for Hospitality Venues, Brands & Events in Birmingham',
+  description:
+    'Curated DJs and live musicians for restaurants, bars and premium hospitality venues in Birmingham. ESSENTIA also delivers atmosphere-first music programming for brand launches and corporate events — always tailored to the room.',
+  alternates: {
+    canonical: 'https://essentiaagency.co.uk/',
+  },
+  openGraph: {
+    title:
+      'ESSENTIA | Curated DJs & Live Music for Hospitality Venues, Brands & Events in Birmingham',
+    description:
+      'Curated DJs and live musicians for restaurants, bars and premium hospitality venues in Birmingham. ESSENTIA also delivers atmosphere-first music programming for brand launches and corporate events — always tailored to the room.',
+    url: 'https://essentiaagency.co.uk/',
+    siteName: 'ESSENTIA',
+    type: 'website',
+  },
 };
 
 export default function ComingSoonPage() {
