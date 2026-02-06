@@ -2,23 +2,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { getToken } from 'next-auth/jwt';
-import { prisma } from '@/lib/prisma';
-
-export const runtime = 'nodejs';
-
-async function getLockEnabled(): Promise<boolean> {
-  try {
-    const row = await prisma.siteConfig.findUnique({ where: { key: 'site_lock' } });
-    const raw = row?.value as unknown;
-
-    if (!raw || typeof raw !== 'object') return false;
-    return (raw as { enabled?: boolean }).enabled === true;
-  } catch (e) {
-    console.error('middleware site_lock read failed:', e);
-    // Safe default: unlocked
-    return false;
-  }
-}
 
 export async function middleware(req: NextRequest) {
   const { pathname, search } = req.nextUrl;
@@ -50,12 +33,17 @@ export async function middleware(req: NextRequest) {
   }
 
   // -----------------------------------
-  // 2) SITE LOCK (COMING SOON)  ✅ DB-backed
+  // 2) SITE LOCK (COMING SOON)
   // -----------------------------------
-  const lockEnabled = await getLockEnabled();
+  const lockEnabled = process.env.SITE_LOCK_ENABLED === 'true';
   if (!lockEnabled) return NextResponse.next();
 
-  // Allowlist
+  // ✅ Detect bots (Google, Bing, etc.)
+  const ua = req.headers.get('user-agent') || '';
+  const isBot =
+    /Googlebot|bingbot|Slurp|DuckDuckBot|Baiduspider|YandexBot|Sogou/i.test(ua);
+
+  // Allowlist (always allowed)
   const allow =
     pathname === '/coming-soon' ||
     pathname.startsWith('/api/site-unlock') ||
@@ -70,9 +58,12 @@ export async function middleware(req: NextRequest) {
   const cookieName = process.env.SITE_UNLOCK_COOKIE || 'site_unlocked';
   const unlocked = req.cookies.get(cookieName)?.value === '1';
 
-  if (unlocked) return NextResponse.next();
+  // ✅ Allow unlocked users OR bots through
+  if (unlocked || isBot) {
+    return NextResponse.next();
+  }
 
-  // Redirect to coming soon
+  // 🔒 Everyone else → coming soon
   const url = req.nextUrl.clone();
   url.pathname = '/coming-soon';
   url.searchParams.set('next', pathname + search);

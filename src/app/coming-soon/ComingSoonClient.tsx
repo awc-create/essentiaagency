@@ -38,8 +38,29 @@ export default function ComingSoonClient() {
 
   return (
     <main style={{ minHeight: '100vh', display: 'grid', placeItems: 'center', padding: 24 }}>
+      {/* SEO + accessibility content (invisible, Google-safe) */}
+      <section className="sr-only" aria-label="ESSENTIA site information">
+        <h1>
+          ESSENTIA | Curated DJs &amp; Live Music for Hospitality Venues, Brands &amp; Events in
+          Birmingham
+        </h1>
+        <p>
+          Curated DJs and live musicians for restaurants, bars and premium hospitality venues in
+          Birmingham.
+        </p>
+        <p>
+          ESSENTIA delivers atmosphere-first music programming for brand launches and corporate
+          events — always tailored to the room.
+        </p>
+        <p>
+          The site is currently locked while we complete the build. Authorised users may enter the
+          password to continue.
+        </p>
+      </section>
+
       <div style={{ width: '100%', maxWidth: 520 }}>
         <h1 style={{ fontSize: 44, margin: 0 }}>Coming soon</h1>
+
         <p style={{ opacity: 0.8, lineHeight: 1.6 }}>
           We’re finishing the site. If you have access, enter the password below.
         </p>

@@ -1,15 +1,11 @@
 // src/app/sitemap.ts
-import type { MetadataRoute } from 'next';
-
-export default function sitemap(): MetadataRoute.Sitemap {
+export default function sitemap() {
   const base = 'https://essentiaagency.co.uk';
 
-  const paths = ['/', '/about', '/services', '/clients', '/enquire', '/join', '/contact'];
-
-  return paths.map((path) => ({
-    url: `${base}${path}`,
-    lastModified: new Date(),
-    changeFrequency: 'monthly',
-    priority: path === '/' ? 1 : 0.7,
-  }));
+  return [
+    { url: `${base}/`, priority: 1 },
+    { url: `${base}/faq`, priority: 0.6 },
+    { url: `${base}/privacy-policy`, priority: 0.3 },
+    { url: `${base}/terms-of-service`, priority: 0.3 },
+  ];
 }
